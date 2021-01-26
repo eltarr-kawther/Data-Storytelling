@@ -61,10 +61,12 @@ trace4 = px.choropleth(df_population, locations="iso_code",
 
 data1 = [trace1, trace2]
 data2 = [trace3]
+data3 = [trace4]
 layout1 = dict(title = 'Evolution de la COVID-19 en France', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
 layout2 = dict(title = 'Population des pays', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
 fig1 = dict(data = data1, layout = layout1)
-fig2 = dict(data = data2)
+fig2 = dict(data = data2, layout = layout2)
+fig3 = dict(data = data3)
 
 
 app.layout = html.Div(children=[
@@ -81,6 +83,11 @@ app.layout = html.Div(children=[
     html.Div(className='Population',
              children=[
         dcc.Graph(id='graph2', figure=fig2)
+        ]),
+    
+    html.Div(className='World-map',
+             children=[
+        dcc.Graph(id='graph3', figure=fig3)
         ])
 ])
 
