@@ -1,3 +1,4 @@
 *.pdf
 /data
 /doc
+/.ipynb_checkpoints
