@@ -19,7 +19,7 @@ server = app.server
 
 app.title = "Data Storytelling"
 
-df = pd.read_csv('data/raw_data.csv', sep=',')
+df = pd.read_csv('raw_data.csv', sep=',')
 df = df.drop(['Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11',
        'Unnamed: 12', 'Unnamed: 13'], axis=1)
 df['date'] = pd.to_datetime(df['date'])
