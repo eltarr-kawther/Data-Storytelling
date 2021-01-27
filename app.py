@@ -15,6 +15,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+server = app.server
+
 app.title = "Data Storytelling"
 
 # df = pd.read_csv('data/raw_data.csv', sep=',')
@@ -26,7 +28,7 @@ app.title = "Data Storytelling"
 
 # df_country = df[df['location']==country]
 
-# df_country = df_country.set_index('date').groupby(pd.Grouper(freq='1D')).sum().reset_index()
+# df_country = df_country.set_index('date').groupby(pd.Grouper(freq='12')).sum().reset_index()
 
 # df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
 
