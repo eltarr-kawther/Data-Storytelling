@@ -2,3 +2,6 @@
 /data
 /doc
 /.ipynb_checkpoints
+/ignore
+/__pycache__
+/my-project-env
