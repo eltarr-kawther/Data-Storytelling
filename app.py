@@ -21,14 +21,14 @@ app.title = "Data Storytelling"
 
 df = pd.read_csv('data/raw_data.csv', sep=',')
 df = df.drop(['Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11',
-        'Unnamed: 12', 'Unnamed: 13'], axis=1)
+       'Unnamed: 12', 'Unnamed: 13'], axis=1)
 df['date'] = pd.to_datetime(df['date'])
 
 country='France'
 
 df_country = df[df['location']==country]
 
-df_country = df_country.set_index('date').groupby(pd.Grouper(freq='12')).sum().reset_index()
+df_country = df_country.set_index('date').groupby(pd.Grouper(freq='1D')).sum().reset_index()
 
 df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
 
@@ -53,7 +53,7 @@ trace3 = go.Bar(
                 y = df_population.population,
                 name = "population",
                 marker = dict(color = 'rgba(255, 174, 255, 0.5)',
-                              line = dict(color ='rgb(0,0,0)',width =1.5)),
+                             line = dict(color ='rgb(0,0,0)',width =1.5)),
                 text = df_population.location)
 
 trace4 = px.choropleth(df_population, locations="iso_code",
@@ -78,19 +78,19 @@ app.layout = html.Div(children=[
     '''),
 
     html.Div(className='Covid evolution',
-              children=[
+             children=[
         dcc.Graph(id='graph1', figure=fig1)
-        ]),
-    
-    html.Div(className='Population',
-              children=[
-        dcc.Graph(id='graph2', figure=fig2)
-        ]),
-    
-    html.Div(className='World-map',
-              children=[
-        dcc.Graph(id='graph3', figure=fig3)
         ])
+    
+    # html.Div(className='Population',
+    #          children=[
+    #     dcc.Graph(id='graph2', figure=fig2)
+    #     ]),
+    
+    # html.Div(className='World-map',
+    #          children=[
+    #     dcc.Graph(id='graph3', figure=fig3)
+    #     ])
 ])
 
 if __name__ == '__main__':
