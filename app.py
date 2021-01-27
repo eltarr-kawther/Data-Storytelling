@@ -30,7 +30,7 @@ df_country = df[df['location']==country]
 
 df_country = df_country.set_index('date').groupby(pd.Grouper(freq='1D')).sum().reset_index()
 
-df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
+#df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
 
 trace1 = go.Scatter(
                     x = df_country['date'],
@@ -48,27 +48,27 @@ trace2 = go.Scatter(
                     marker = dict(color = 'rgba(80, 26, 80, 0.8)'),
                     text = 'France')
 
-trace3 = go.Bar(
-                x = df_population.iso_code,
-                y = df_population.population,
-                name = "population",
-                marker = dict(color = 'rgba(255, 174, 255, 0.5)',
-                             line = dict(color ='rgb(0,0,0)',width =1.5)),
-                text = df_population.location)
+# trace3 = go.Bar(
+#                 x = df_population.iso_code,
+#                 y = df_population.population,
+#                 name = "population",
+#                 marker = dict(color = 'rgba(255, 174, 255, 0.5)',
+#                              line = dict(color ='rgb(0,0,0)',width =1.5)),
+#                 text = df_population.location)
 
-trace4 = px.choropleth(df_population, locations="iso_code",
-                    color="total_deaths", 
-                    hover_name="location", # column to add to hover information
-                    color_continuous_scale='Reds')
+# trace4 = px.choropleth(df_population, locations="iso_code",
+#                     color="total_deaths", 
+#                     hover_name="location", # column to add to hover information
+#                     color_continuous_scale='Reds')
 
 data1 = [trace1, trace2]
-data2 = [trace3]
-data3 = [trace4]
+#data2 = [trace3]
+#data3 = [trace4]
 layout1 = dict(title = 'Evolution de la COVID-19 en France', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
-layout2 = dict(title = 'Population des pays', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
+#layout2 = dict(title = 'Population des pays', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
 fig1 = dict(data = data1, layout = layout1)
-fig2 = dict(data = data2, layout = layout2)
-fig3 = dict(data = data3)
+# fig2 = dict(data = data2, layout = layout2)
+# fig3 = dict(data = data3)
 
 
 app.layout = html.Div(children=[
