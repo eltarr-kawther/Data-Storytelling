@@ -7,9 +7,9 @@ Created on Wed Jan 20 13:23:37 2021
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import plotly.express as px
 import plotly.graph_objs as go
 import pandas as pd
+import numpy as np
 
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 #external_stylesheets=external_stylesheets
@@ -29,7 +29,7 @@ country='France'
 
 df_country = df[df['location']==country]
 
-df_country = df_country.set_index('date').groupby(pd.Grouper(freq='1D')).sum().reset_index()
+df_country = df_country.set_index('date').groupby(pd.Grouper(freq='2D')).sum().reset_index()
 
 df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
 
@@ -57,34 +57,26 @@ trace2 = go.Scatter(
 #                              line = dict(color ='rgb(0,0,0)',width =1.5)),
 #                 text = df_population.location)
 
-
-# trace4 = px.choropleth(df_population, locations="iso_code",
-#                     color="total_deaths", 
-#                     hover_name="location", # column to add to hover information
-#                     color_continuous_scale='Reds')
-
 worldmap = dict(type='choropleth',
             locations=df_population['location'],
             locationmode='country names',
             text=df_population['location'],
             z=df_population['total_cases'],
             colorscale = 'Reds',
-            colorbar_title = "Total Cases"
+            colorbar_title = "Total cases"
             )
 
 layout_map = dict(geo = dict(scope='world',
-                         showlakes= False))
+                         showlakes= False), 
+                  title="Nombre de cas de la covid-19 dans le monde")
 choromap = go.Figure(data=[worldmap], layout=layout_map)
 
 data1 = [trace1, trace2]
-#data2 = [trace3]
 
 layout1 = dict(title = 'Evolution de la COVID-19 en France', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
-#layout2 = dict(title = 'Population des pays', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
 
 
 fig1 = dict(data = data1, layout = layout1)
-# fig2 = dict(data = data2, layout = layout2)
 
 
 app.layout = html.Div(children=[
@@ -93,19 +85,25 @@ app.layout = html.Div(children=[
         Dash: A web application framework for Python.
     '''),
 
+    html.Div([dcc.Dropdown(
+            id="country-filter",
+            options=[
+                {"label": country, "value": country}
+                for country in np.sort(df_population.location.unique())
+            ],
+            value="Afghanistan",
+            className="dropdown"
+        ),
+    ]
+    ),
     html.Div(className='Covid evolution',
              children=[
         dcc.Graph(id='graph1', figure=fig1)
         ]),
     
-    # html.Div(className='Population',
-    #          children=[
-    #     dcc.Graph(id='graph2', figure=fig2)
-    #     ]),
-    
     html.Div(className='World-map',
               children=[
-        dcc.Graph(id='graph3', figure=choromap)
+        dcc.Graph(id='graph2', figure=choromap)
         ])
 ])
 
