@@ -8,6 +8,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
+from dash.dependencies import Input, Output
 import pandas as pd
 import numpy as np
 
@@ -91,8 +92,8 @@ app.layout = html.Div(children=[
                 {"label": country, "value": country}
                 for country in np.sort(df_population.location.unique())
             ],
-            value="Afghanistan",
-            className="dropdown"
+            value="France",
+            className="country-filter"
         ),
     ]
     ),
@@ -106,6 +107,10 @@ app.layout = html.Div(children=[
         dcc.Graph(id='graph2', figure=choromap)
         ])
 ])
+             
+#----------------------------------------------------------------------------
+@app.callback(Output('timeseries', 'figure'),
+              [Input('stockselector', 'value')])
 
 if __name__ == '__main__':
     app.run_server(debug=True)
