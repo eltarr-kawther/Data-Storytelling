@@ -1,9 +1,11 @@
 heroku --V
 heroku create
 heroku login
-git push heroku main
 heroku git:remote -a data-storytelling-k
+git push heroku maingit 
 heroku ps:scale web=1
 heroku open
+
+https://devcenter.heroku.com/articles/renaming-apps#updating-git-remotes
 
 https://devcenter.heroku.com/articles/getting-started-with-python#define-a-procfile
