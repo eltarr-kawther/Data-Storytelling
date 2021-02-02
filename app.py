@@ -38,7 +38,7 @@ df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
 scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development_index",
                  size="population", color="location",
                  hover_name="location", log_x=True, size_max=60,
-                 title="Variation du GDP en fonction du HDI")
+                 title="Variation du GDP en fonction du HDI au 19 octobre 2020")
 
 #----------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ app.layout = html.Div(children=[
     html.Div([
         dcc.RadioItems(id='feature', 
         options=[{'value': x, 'label': x} 
-                 for x in ['total_cases', 'total_deaths']],
+                 for x in ['total_cases', 'total_deaths', 'stringency_index']],
         value='total_cases',
         labelStyle={'display': 'inline-block'}
     ),
@@ -75,6 +75,7 @@ app.layout = html.Div(children=[
 def update_graph(selected_dropdown_value):
     trace1 = []
     trace2 = []
+    trace3 = []
     for country in selected_dropdown_value:
         df_sub = df[df['location'] == country]
         trace1.append(go.Scatter(
@@ -91,8 +92,16 @@ def update_graph(selected_dropdown_value):
                     name = "Total deaths",
                     #marker = dict(color = 'rgba(80, 26, 80, 0.8)'),
                     text = str(country)))
+        
+        trace3.append(go.Scatter(
+                    x = df_sub['date'],
+                    y = df_sub['stringency_index'],
+                    mode = "lines+markers",
+                    name = "Stringency index",
+                    #marker = dict(color = 'rgba(80, 26, 80, 0.8)'),
+                    text = str(country)))
     
-    traces = [trace1, trace2]
+    traces = [trace1, trace2, trace3]
     data = [val for sublist in traces for val in sublist]
     figure = {'data': data,
               'layout': go.Layout(
@@ -119,7 +128,7 @@ def display_choropleth(feature):
     # choromap = go.Figure(data=[worldmap], layout=layout_map)
     
     
-    df_dates = df.groupby([df.date.dt.strftime('%m %Y'), 'location','iso_code'])[['total_cases', 'total_deaths', 'population', 'gdp_per_capita', 'human_development_index']].max().reset_index()
+    df_dates = df.groupby([df.date.dt.strftime('%m %Y'), 'location','iso_code'])[['total_cases', 'total_deaths', 'population', 'gdp_per_capita', 'human_development_index', 'stringency_index']].max().reset_index()
     df_dates['date'] = pd.to_datetime(df_dates['date'])
     df_dates = df_dates.sort_values(by='date',ascending=True).reset_index(drop=True)
     df_dates['date'] = df_dates['date'].astype(str)
@@ -127,7 +136,8 @@ def display_choropleth(feature):
                     color=feature, 
                     hover_name="location",
                     animation_frame="date",
-                    animation_group="location")
+                    animation_group="location",
+                    title = "Visualisation des cas et des morts de la covid-19 dans le monde")
     fig["layout"].pop("updatemenus") # optional, drop animation buttons
     return fig
 
