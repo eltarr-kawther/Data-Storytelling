@@ -19,51 +19,33 @@ app = dash.Dash(__name__)
 
 server = app.server
 
-app.title = "Data Storytelling"
+app.title = "Coviz"
 
 df = pd.read_csv('raw_data.csv', sep=',')
 df = df.drop(['Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11',
        'Unnamed: 12', 'Unnamed: 13'], axis=1)
 df['date'] = pd.to_datetime(df['date'])
 
-country='France'
+def get_options(list_countries):
+    dict_list = []
+    for c in list_countries:
+        dict_list.append({'label': c, 'value': c})
+    return dict_list
 
-df_country = df[df['location']==country]
 
-df_country = df_country.set_index('date').groupby(pd.Grouper(freq='2D')).sum().reset_index()
+# country='France'
+
+# df_country = df[df['location']==country]
+
+# df_country = df_country.set_index('date').groupby(pd.Grouper(freq='2D')).sum().reset_index()
 
 df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
-
-trace1 = go.Scatter(
-                    x = df_country['date'],
-                    y = df_country['total_cases'],
-                    mode = "lines",
-                    name = "Total cases",
-                    marker = dict(color = 'rgba(16, 112, 2, 0.8)'),
-                    text = 'France')
-    
-trace2 = go.Scatter(
-                    x = df_country['date'],
-                    y = df_country['total_deaths'],
-                    mode = "lines+markers",
-                    name = "Total deaths",
-                    marker = dict(color = 'rgba(80, 26, 80, 0.8)'),
-                    text = 'France')
-
-# trace3 = go.Bar(
-#                 x = df_population.iso_code,
-#                 y = df_population.population,
-#                 name = "population",
-#                 marker = dict(color = 'rgba(255, 174, 255, 0.5)',
-#                              line = dict(color ='rgb(0,0,0)',width =1.5)),
-#                 text = df_population.location)
 
 worldmap = dict(type='choropleth',
             locations=df_population['location'],
             locationmode='country names',
             text=df_population['location'],
             z=df_population['total_cases'],
-            colorscale = 'Reds',
             colorbar_title = "Total cases"
             )
 
@@ -72,34 +54,17 @@ layout_map = dict(geo = dict(scope='world',
                   title="Nombre de cas de la covid-19 dans le monde")
 choromap = go.Figure(data=[worldmap], layout=layout_map)
 
-data1 = [trace1, trace2]
-
-layout1 = dict(title = 'Evolution de la COVID-19 en France', xaxis = dict(title = 'Date',ticklen = 5,zeroline= False))
-
-
-fig1 = dict(data = data1, layout = layout1)
-
-
 app.layout = html.Div(children=[
-    html.H1(children='Covid-19 world wide evolution'),
-    html.Div(children='''
-        Dash: A web application framework for Python.
-    '''),
-
-    html.Div([dcc.Dropdown(
-            id="country-filter",
-            options=[
-                {"label": country, "value": country}
-                for country in np.sort(df_population.location.unique())
-            ],
-            value="France",
-            className="country-filter"
-        ),
-    ]
-    ),
-    html.Div(className='Covid evolution',
-             children=[
-        dcc.Graph(id='graph1', figure=fig1)
+    html.H1(children='Covid-19 Data Visualisation'),
+        
+    html.Div(children=[
+        html.P("Sélectionner pays :"),
+        dcc.Dropdown(id='country-filter', options=get_options(df['location'].unique()),
+                     multi=True, value=[df['location'].sort_values()[0]],
+                     className='country-filter'),
+    ]),
+    html.Div(children=[
+            dcc.Graph(id='covid-evolution',config={'displayModeBar': False}, animate=True)
         ]),
     
     html.Div(className='World-map',
@@ -109,9 +74,39 @@ app.layout = html.Div(children=[
 ])
              
 #----------------------------------------------------------------------------
-@app.callback(Output('timeseries', 'figure'),
-              [Input('stockselector', 'value')])
+@app.callback(Output('covid-evolution', 'figure'),
+              [Input('country-filter', 'value')])
+def update_graph(selected_dropdown_value):
+    trace1 = []
+    trace2 = []
+    for country in selected_dropdown_value:
+        df_sub = df[df['location'] == country]
+        trace1.append(go.Scatter(
+                    x = df_sub['date'],
+                    y = df_sub['total_cases'],
+                    mode = "lines",
+                    name = "Total cases",
+                    text = str(country)))
+                    
+        trace2.append(go.Scatter(
+                    x = df_sub['date'],
+                    y = df_sub['total_deaths'],
+                    mode = "lines+markers",
+                    name = "Total deaths",
+                    #marker = dict(color = 'rgba(80, 26, 80, 0.8)'),
+                    text = str(country)))
+    
+    traces = [trace1, trace2]
+    data = [val for sublist in traces for val in sublist]
+    figure = {'data': data,
+              'layout': go.Layout(
+                  title = 'Evolution de la COVID-19',
+                  xaxis = dict(title = 'Date',ticklen = 5,zeroline= False),
+              ),
+
+              }
+    return figure
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
     
