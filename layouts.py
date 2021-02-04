@@ -29,16 +29,16 @@ scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development
                  hover_name="location", log_x=True, size_max=60,
                  title="Variation du GDP en fonction du HDI au 19 octobre 2020")
 
-index_page = html.Div(children=[
+page_index_layout = html.Div(children=[
+    html.H1(className='header', children='CoViz'),
     dcc.Link('Check Covid-19 Data Visualisation', href='/page-viz'),
     html.Br(),
-    dcc.Link('Go to Page 2', href='/page-bilan'),
+    dcc.Link('Check Covid-19 Data Analysis', href='/page-bilan'),
 ])
 
 page_viz_layout = html.Div(children=[
-    html.H1(children='Covid-19 Data Visualisation'),
+    html.H1(className='header',children='Covid-19 Data Visualisation'),
     html.Div(children=[
-        #html.P("GDP en fonction du HDI"),
         dcc.Graph(id="scatter_hdi", figure=scatter_hdi),
         ]),
     html.Div(children=[
@@ -59,21 +59,20 @@ page_viz_layout = html.Div(children=[
         labelStyle={'display': 'inline-block'}
     ),
     dcc.Graph(id="choropleth"),
+    html.Br(),
+    dcc.Link('Check Covid-19 Data Analysis', href='/page-bilan'),
+    html.Br(),
+    dcc.Link('Go back to main page', href='/')
 ])
 ])
 
 page_bilan_layout = html.Div([
-    html.H1('Page 2'),
-    dcc.RadioItems(
-        id='page-bilan-radios',
-        options=[{'label': i, 'value': i} for i in ['Orange', 'Blue', 'Red']],
-        value='Orange'
-    ),
+    html.H1(className='header', children='Analyse des données Covid-19'),
     html.Div(id='page-bilan-content'),
     html.Br(),
-    dcc.Link('Go to Page 1', href='/page-viz'),
+    dcc.Link('Check Covid-19 Data Visualisation', href='/page-viz'),
     html.Br(),
-    dcc.Link('Go back to home', href='/')
+    dcc.Link('Go back to main page', href='/')
 ])
 
 

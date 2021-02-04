@@ -72,7 +72,3 @@ def display_choropleth(feature):
     fig["layout"].pop("updatemenus") # optional, drop animation buttons
     return fig
 
-@app.callback(dash.dependencies.Output('page-bilan-content', 'children'),
-              [dash.dependencies.Input('page-bilan-radios', 'value')])
-def page_bilan_radios(value):
-    return 'You have selected "{}"'.format(value)

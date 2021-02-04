@@ -3,13 +3,14 @@ body {
     max-width: 90vw;
     margin: auto;
     font: 1.2em "Fira Sans", sans-serif;
+    background-color: #173042;
 }
 .header {
-  background-color: #F1F1F1;
+  background-color: #A83838;
   text-align: center;
   padding: 20px;
 }
 
-h1 {
-  color: lightblue;
+h1, h2 {
+  color: #F5F1EA;
 }

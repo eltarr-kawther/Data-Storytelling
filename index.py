@@ -10,7 +10,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 from app import app
 from app import server
-from layouts import page_viz_layout, page_bilan_layout, index_page
+from layouts import page_viz_layout, page_bilan_layout, page_index_layout
 import callbacks
 
 app.layout = html.Div([
@@ -27,7 +27,7 @@ def display_page(pathname):
     elif pathname == '/page-bilan':
         return page_bilan_layout
     else:
-        return index_page
+        return page_index_layout
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
