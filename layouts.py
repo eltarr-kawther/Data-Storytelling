@@ -92,7 +92,7 @@ page_viz_layout = html.Div(children=[
         dcc.Graph(id="scatter_hdi", figure=scatter_hdi),
         ]),
     html.Div(className='container', children=[
-        html.P("Sélectionner pays :"),
+        html.P("Sélectionner un pays pour visualiser l'évolution du virus :"),
         dcc.Dropdown(id='country-filter', options=get_options(df['location'].unique()),
                       multi=True, value=[df['location'].sort_values()[0]],
                       className='country-filter'),
