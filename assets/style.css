@@ -10,11 +10,11 @@
 }
 
 .header {
-  padding: 60px;
+  padding: 55px;
   text-align: center;
-  background: #1abc9c;
+  background: #760F31;
   color: white;
-  font-size: 50px;
+  font-size: 40px;
   text-align: center;
 }
 
@@ -23,7 +23,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  background: #1abc9c;
+  background: #760F31;
   color: white;
   text-align: center;
 }
