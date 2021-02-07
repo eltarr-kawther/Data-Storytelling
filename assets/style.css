@@ -7,11 +7,19 @@
   text-align: center;
 }
 
-.welcome-page {
-  padding: 200px;
+.welcome-page-title {
+  padding: 120px;
   text-align: center;
   color: white;
   font-size: 50px;
+}
+
+.welcome-page-text {
+  max-width: 90vw;
+  margin: auto;
+  text-align: center;
+  color: white;
+  font-size: 20px;
 }
 
 .container {

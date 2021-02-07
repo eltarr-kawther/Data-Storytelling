@@ -62,6 +62,18 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
+# table = go.Table(
+#         header=dict(
+#             values=['iso_code', 'location', 'date', 'total_cases', 'total_deaths',
+#                     'stringency_index', 'population', 'gdp_per_capita',
+#                     'human_development_index'],
+
+#             font=dict(size=10),
+#             align="center"
+#         ),
+#         cells=dict(
+#             values=[df_population[k].tolist() for k in df_population.columns[:]],
+#             align = "center"))
 
 scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development_index",
                  size="population", color="location",
@@ -69,8 +81,8 @@ scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development
                  title="Variation du GDP en fonction du HDI au 19 octobre 2020")
 
 page_index_layout = html.Div(children=[
-    html.H1(className='welcome-page', children='Bienvenue sur CoViz'),
-    html.Br(),
+    html.H1(className='welcome-page-title', children='Bienvenue sur CoViz'),
+    html.P(className='welcome-page-text', children='Une application de visualisation et d\'analyse de données de la Covid-19'),
     html.Div(className='footer', children='© 2018 Kawthar ELTARR')
 ])
 
