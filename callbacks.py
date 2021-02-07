@@ -4,7 +4,6 @@ Created on Thu Feb  4 14:25:41 2021
 
 @author: straw
 """
-import dash
 from dash.dependencies import Input, Output
 from app import app
 from layouts import df
@@ -12,7 +11,6 @@ import plotly.graph_objs as go
 import plotly.express as px
 import pandas as pd
 
-#global df
 
 @app.callback(Output('covid-evolution', 'figure'),
               [Input('country-filter', 'value')])
