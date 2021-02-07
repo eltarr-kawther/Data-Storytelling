@@ -1,3 +1,19 @@
+.header {
+  padding: 55px;
+  text-align: center;
+  background: #760F31;
+  color: white;
+  font-size: 40px;
+  text-align: center;
+}
+
+.welcome-page {
+  padding: 200px;
+  text-align: center;
+  color: white;
+  font-size: 50px;
+}
+
 .container {
   margin: auto;
   margin-top: 5%;
@@ -7,15 +23,6 @@
   padding: 10px 10px;
   background: lightgray;
   max-width: 90vw;
-}
-
-.header {
-  padding: 55px;
-  text-align: center;
-  background: #760F31;
-  color: white;
-  font-size: 40px;
-  text-align: center;
 }
 
 .footer {

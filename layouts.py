@@ -69,13 +69,13 @@ scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development
                  title="Variation du GDP en fonction du HDI au 19 octobre 2020")
 
 page_index_layout = html.Div(children=[
-    html.H1(className='header', children='Bienvenue sur CoViz'),
+    html.H1(className='welcome-page', children='Bienvenue sur CoViz'),
     html.Br(),
     html.Div(className='footer', children='© 2018 Kawthar ELTARR')
 ])
 
 page_viz_layout = html.Div(children=[
-    html.H1(className='header',children='Covid-19 Data Visualisation'),
+    html.H1(className='header',children='Visualisation des données Covid-19'),
     html.Div(className='container',children=[
         dcc.Graph(id="scatter_hdi", figure=scatter_hdi),
         ]),
@@ -104,7 +104,17 @@ page_viz_layout = html.Div(children=[
 
 page_bilan_layout = html.Div(children=[
              html.H1(className='header', children='Analyse des données Covid-19'),
-             html.Div(id='page-bilan-content'),
+             html.Div(className='container', children=
+                      [
+                          html.P('Les données ont été enregistrés...')
+                    ]),
              html.Div(className='footer', children='© 2018 Kawthar ELTARR')
              ])
+
+
+
+
+
+
+
 
