@@ -26,7 +26,7 @@ def get_options(list_countries):
 # df_country = df_country.set_index('date').groupby(pd.Grouper(freq='2D')).sum().reset_index()
 df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
 
-head = df.head(200)
+head = df.head(120)
 stats = df.describe()
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
@@ -56,8 +56,8 @@ sidebar = html.Div(
         dbc.Nav(
             [
                 dbc.NavLink("Accueil", href="/", active="exact"),
-                dbc.NavLink("Data Visualisation", href='/page-viz', active="exact"),
                 dbc.NavLink("Data Analysis", href="/page-bilan", active="exact"),
+                dbc.NavLink("Data Visualisation", href='/page-viz', active="exact"),
                 dbc.NavLink("About", href="/page-about", active="exact"),
             ],
             vertical=True,
@@ -87,10 +87,10 @@ fig_stats = go.Figure(data=[go.Table(
 
 heat_map = px.imshow(df.corr())
 
-scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development_index",
-                 size="population", color="location",
-                 hover_name="location", log_x=True, size_max=60,
-                 title="Variation du GDP en fonction du HDI au 19 octobre 2020")
+# scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development_index",
+#                  size="population", color="location",
+#                  hover_name="location", log_x=True, size_max=60,
+#                  title="Variation du GDP en fonction du HDI au 19 octobre 2020")
 
 page_index_layout = html.Div(children=[
     html.H1(className='welcome-page-title', children='Bienvenue sur CoViz !'),
@@ -101,7 +101,11 @@ page_index_layout = html.Div(children=[
 page_viz_layout = html.Div(children=[
     html.H1(className='header',children='Visualisation des données Covid-19'),
     html.Div(className='container',children=[
-        dcc.Graph(id="scatter_hdi", figure=scatter_hdi),
+        dcc.RadioItems(id='facteur', 
+        options=[{'value': x, 'label': x} 
+                  for x in ['human_development_index', 'total_cases', 'total_deaths']],
+        value='human_development_index', labelStyle={'display': 'inline-block'}),
+        dcc.Graph(id='scatter'),
         ]),
     html.Div(className='container', children=[
         html.P("Sélectionner un pays afin de visualiser l'évolution du virus :"),

@@ -6,11 +6,19 @@ Created on Thu Feb  4 14:25:41 2021
 """
 from dash.dependencies import Input, Output
 from app import app
-from layouts import df
+from layouts import df, df_population
 import plotly.graph_objs as go
 import plotly.express as px
 import pandas as pd
 
+@app.callback(Output("scatter", "figure"), 
+              [Input("facteur", "value")])
+def display_choropleth(feature):
+    fig = px.scatter(df_population, x="gdp_per_capita", y=feature,
+                 size="population", color="location",
+                 hover_name="location", log_x=True, size_max=60,
+                 title="Variation du GDP en fonction du {} au 19 octobre 2020".format(feature))
+    return fig
 
 @app.callback(Output('covid-evolution', 'figure'),
               [Input('country-filter', 'value')])
@@ -50,7 +58,6 @@ def update_graph(selected_dropdown_value):
                   title = 'Evolution de la COVID-19',
                   xaxis = dict(title = 'Date',ticklen = 5,zeroline= False),
               ),
-
               }
     return figure
 
@@ -67,6 +74,6 @@ def display_choropleth(feature):
                     animation_frame="date",
                     animation_group="location",
                     title = "Visualisation des cas et des morts de la covid-19 dans le monde")
-    fig["layout"].pop("updatemenus") # optional, drop animation buttons
     return fig
+
 
