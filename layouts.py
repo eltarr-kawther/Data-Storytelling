@@ -129,13 +129,16 @@ page_bilan_layout = html.Div(children=[
              [
                  html.P('Les données présentées dans cet outil sont des données collectées \
                         dans le cadre d\'une étude sur l\'impact de la covid-19 \
-                        sur l\'économie mondiale pour 170 pays.'),
+                        sur l\'économie mondiale pour 170 pays. La table ci-dessous est \
+                            aperçu de ces données.'),
                 dcc.Graph(figure=fig_head),
+                 html.P('Les données sont des enregistrements journaliers faient du 31 décembre 2019\
+                        au 19 octobre 2020 pour différentes facteurs.'),
             ]
             ),
     html.Div(className='container', children=
              [
-                 html.P('COMMENT'),
+                 html.P('La table ci-dessous'),
                 dcc.Graph(figure=fig_stats),
             ]
             ),
