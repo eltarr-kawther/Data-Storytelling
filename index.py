@@ -11,7 +11,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from app import app
 from app import server
-from layouts import page_viz_layout, page_bilan_layout, page_index_layout, sidebar
+from layouts import page_viz_layout, page_bilan_layout, page_index_layout, page_about_layout, sidebar
 import callbacks
 
 app.layout = html.Div([
@@ -28,6 +28,8 @@ def display_page(pathname):
         return page_viz_layout
     elif pathname == '/page-bilan':
         return page_bilan_layout
+    elif pathname == '/page-about':
+        return page_about_layout
     elif pathname == '/':
         return page_index_layout
     return dbc.Jumbotron(

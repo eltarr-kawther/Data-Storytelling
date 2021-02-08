@@ -5,6 +5,7 @@
   color: white;
   font-size: 40px;
   text-align: center;
+  margin-left: 6%;
 }
 
 .welcome-page-title {
@@ -20,6 +21,7 @@
   text-align: center;
   color: white;
   font-size: 20px;
+  margin-left: 10%;
 }
 
 .container {

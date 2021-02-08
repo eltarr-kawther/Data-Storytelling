@@ -54,6 +54,7 @@ sidebar = html.Div(
                 dbc.NavLink("Accueil", href="/", active="exact"),
                 dbc.NavLink("Data Visualisation", href='/page-viz', active="exact"),
                 dbc.NavLink("Data Analysis", href="/page-bilan", active="exact"),
+                dbc.NavLink("About", href="/page-about", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -62,23 +63,10 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
-# table = go.Table(
-#         header=dict(
-#             values=['iso_code', 'location', 'date', 'total_cases', 'total_deaths',
-#                     'stringency_index', 'population', 'gdp_per_capita',
-#                     'human_development_index'],
-
-#             font=dict(size=10),
-#             align="center"
-#         ),
-#         cells=dict(
-#             values=[df_population[k].tolist() for k in df_population.columns[:]],
-#             align = "center"))
-
 scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development_index",
                  size="population", color="location",
                  hover_name="location", log_x=True, size_max=60,
-                 title="Variation du GDP en fonction du HDI au 19 octobre 2020")
+                 title="Variation du GDP en fonction du HDI en 19 octobre 2020")
 
 page_index_layout = html.Div(children=[
     html.H1(className='welcome-page-title', children='Bienvenue sur CoViz'),
@@ -118,9 +106,20 @@ page_bilan_layout = html.Div(children=[
              html.H1(className='header', children='Analyse des données Covid-19'),
              html.Div(className='container', children=
                       [
-                          html.P('Les données ont été enregistrés...')
+                          html.P('Les données présentées dans cet outil sont des données collectées \
+                                 dans le cadre d\'une étude sur l\'impact de la covid-19 \
+                                 sur l\'économie mondiale pour 170 pays.')
                     ]),
              html.Div(className='footer', children='© 2018 Kawthar ELTARR')
+             ])
+    
+page_about_layout = html.Div(children=[
+             html.H1(className='header', children='About'),
+             html.Br(),
+             html.P(className='welcome-page-text', children='CoViz a été créé dans le cadre d\'un projet étudiant à l\'école La Plateforme_.'),
+             html.P(className='welcome-page-text', children='Le but était de développer un dashboard Plotly/Dash multi-pages mettant en scène'),
+             html.P(className='welcome-page-text', children='des données permettant d’évaluer l\'impact de la pandémie Covid-19 sur '),
+             html.P(className='welcome-page-text', children='l\'économie mondiale, accessible via ce lien : https://data.mendeley.com/datasets/b2wvnbnpj9/1'),
              ])
 
 
