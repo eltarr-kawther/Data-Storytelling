@@ -73,8 +73,7 @@ fig_head = go.Figure(data=[go.Table(
                 align='left'),
     cells=dict(values=[head.index, head.iso_code, head.date, head.total_cases, head.total_deaths, head.stringency_index, head.population, head.gdp_per_capita, head.human_development_index],
                fill_color='#FDE74C',
-               align='left',
-               height=40))
+               align='left'))
 ])
 
 fig_stats = go.Figure(data=[go.Table(
@@ -85,6 +84,8 @@ fig_stats = go.Figure(data=[go.Table(
                fill_color='#FDE74C',
                align='left'))
 ])
+
+heat_map = px.imshow(df.corr())
 
 scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development_index",
                  size="population", color="location",
@@ -131,17 +132,24 @@ page_bilan_layout = html.Div(children=[
                         dans le cadre d\'une étude sur l\'impact de la covid-19 \
                         sur l\'économie mondiale pour 170 pays. La table ci-dessous est \
                             aperçu de ces données.'),
+                html.P('Les données sont des enregistrements journaliers faient du 31 décembre 2019\
+                        au 19 octobre 2020 pour différents facteurs.'),
                 dcc.Graph(figure=fig_head),
-                 html.P('Les données sont des enregistrements journaliers faient du 31 décembre 2019\
-                        au 19 octobre 2020 pour différentes facteurs.'),
             ]
             ),
-    html.Div(className='container', children=
-             [
-                 html.P('La table ci-dessous'),
+    html.Div(className='container',
+             children=[
+                 html.P('Statistiques sur les données :'),
                 dcc.Graph(figure=fig_stats),
-            ]
-            ),
+            ]),
+    html.Div(className='container',
+             children=[
+                 html.P('La matrice de corrélation suivante montre une forte corrélation attendue \
+                        entre le nombre de cas et le nombre morts (91%). Il existe également une \
+                        forte corrélation entre le HDI et le GDP (72.6%).'),
+                html.P(''),
+                dcc.Graph(figure=heat_map),
+            ]),
     html.Div(className='footer', children='© 2021 Kawthar ELTARR')
     ])
     
