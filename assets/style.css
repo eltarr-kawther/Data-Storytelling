@@ -1,18 +1,20 @@
 .header {
-  padding: 55px;
+  padding: 50px;
   text-align: center;
-  background: #760F31;
-  color: white;
+  background: #DB5461;
+  color: #4C5B5C;
   font-size: 40px;
   text-align: center;
   margin-left: 6%;
+  font-weight: bold;
 }
 
 .welcome-page-title {
   padding: 120px;
   text-align: center;
-  color: white;
+  color: #FDE74C;
   font-size: 50px;
+  font-weight: bold;
 }
 
 .welcome-page-text {
@@ -22,6 +24,7 @@
   color: white;
   font-size: 20px;
   margin-left: 6%;
+  font-weight: bold;
 }
 .container {
   font-size: 20px;
@@ -33,7 +36,7 @@
   height: 80%;
   padding: 10px 10px;
   background: lightgray;
-  color: #13252B;
+  color: #4C5B5C;
   text-align: left;
   max-width: 90vw;
 }
@@ -43,7 +46,8 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  background: #760F31;
-  color: white;
+  background: #E3655B;
+  color: #4C5B5C;
   text-align: center;
+  font-weight: bold;
 }
