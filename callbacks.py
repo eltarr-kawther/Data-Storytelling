@@ -13,7 +13,7 @@ import pandas as pd
 
 @app.callback(Output("scatter", "figure"), 
               [Input("facteur", "value")])
-def display_choropleth(feature):
+def display_scatter(feature):
     fig = px.scatter(df_population, x="gdp_per_capita", y=feature,
                  size="population", color="location",
                  hover_name="location", log_x=True, size_max=60,

@@ -13,21 +13,19 @@ import pandas as pd
 
 df = pd.read_csv('raw_data.csv', sep=',')
 df = df.drop(['Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11',
-       'Unnamed: 12', 'Unnamed: 13'], axis=1)
+        'Unnamed: 12', 'Unnamed: 13'], axis=1)
 df['date'] = pd.to_datetime(df['date'])
+
+df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
+
+head = df.head(120)
+stats = df.describe()
 
 def get_options(list_countries):
     dict_list = []
     for c in list_countries:
         dict_list.append({'label': c, 'value': c})
     return dict_list
-
-
-# df_country = df_country.set_index('date').groupby(pd.Grouper(freq='2D')).sum().reset_index()
-df_population = df[df['date']==df['date'].max()].reset_index(drop=True)
-
-head = df.head(120)
-stats = df.describe()
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
@@ -87,11 +85,6 @@ fig_stats = go.Figure(data=[go.Table(
 
 heat_map = px.imshow(df.corr())
 
-# scatter_hdi = px.scatter(df_population, x="gdp_per_capita", y="human_development_index",
-#                  size="population", color="location",
-#                  hover_name="location", log_x=True, size_max=60,
-#                  title="Variation du GDP en fonction du HDI au 19 octobre 2020")
-
 page_index_layout = html.Div(children=[
     html.H1(className='welcome-page-title', children='Bienvenue sur CoViz !'),
     html.P(className='welcome-page-text', children='Un dashboard de visualisation et d\'analyse de données de la Covid-19.'),
@@ -101,6 +94,7 @@ page_index_layout = html.Div(children=[
 page_viz_layout = html.Div(children=[
     html.H1(className='header',children='Visualisation des données Covid-19'),
     html.Div(className='container',children=[
+        html.P("Visualisation du GDP en fonction de différentes variables"),
         dcc.RadioItems(id='facteur', 
         options=[{'value': x, 'label': x} 
                   for x in ['human_development_index', 'total_cases', 'total_deaths']],
@@ -116,6 +110,7 @@ page_viz_layout = html.Div(children=[
         ]),
     
     html.Div(className='container',children=[
+        html.P("Visualisation des données de la Covid-19"),
         dcc.RadioItems(id='feature', 
         options=[{'value': x, 'label': x} 
                   for x in ['total_cases', 'total_deaths', 'stringency_index']],
